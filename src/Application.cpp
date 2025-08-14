@@ -42,7 +42,6 @@ void Application::task_handler() {
     if (_telemetry) {
       _telemetry->task_handler();
     }
-    //
     if (M5.Power.getBatteryLevel() < 100 &&
         M5.Power.isCharging() == m5::Power_Class::is_discharging) {
       // バッテリー駆動時は明るさを下げる
@@ -157,7 +156,8 @@ bool Application::startup() {
       std::bind(&Application::read_settings_json, this, std::placeholders::_1),
       std::bind(&Application::start_wifi, this, std::placeholders::_1),
       std::bind(&Application::synchronize_ntp, this, std::placeholders::_1),
-      std::bind(&Application::start_telemetry, this, std::placeholders::_1),
+      // AWS IoTは使わないのでコメントアウト
+      // std::bind(&Application::start_telemetry, this, std::placeholders::_1),
       std::bind(&Application::start_electricity_meter_communication, this,
                 std::placeholders::_1),
   };
@@ -296,12 +296,12 @@ bool Application::read_settings_json(std::ostream &os) {
     CHECK("wifi password", getSettings_wifi_password());
     CHECK("RouteB id", getSettings_RouteB_id());
     CHECK("RouteB password", getSettings_RouteB_password());
-    CHECK("DeviceId", getSettings_DeviceId());
-    CHECK("SensorId", getSettings_SensorId());
-    CHECK("AwsIoT Endpoint", getSettings_AwsIoT_Endpoint());
-    CHECK("AwsIoT root_ca_file", getSettings_AwsIoT_root_ca_file());
-    CHECK("AwsIoT certificate_file", getSettings_AwsIoT_certificate_file());
-    CHECK("AwsIoT private_key_file", getSettings_AwsIoT_private_key_file());
+    // CHECK("DeviceId", getSettings_DeviceId());
+    // CHECK("SensorId", getSettings_SensorId());
+    // CHECK("AwsIoT Endpoint", getSettings_AwsIoT_Endpoint());
+    // CHECK("AwsIoT root_ca_file", getSettings_AwsIoT_root_ca_file());
+    // CHECK("AwsIoT certificate_file", getSettings_AwsIoT_certificate_file());
+    // CHECK("AwsIoT private_key_file", getSettings_AwsIoT_private_key_file());
   }
 #undef CHECK
   // 設定ファイルに書いてあるファイルを読む

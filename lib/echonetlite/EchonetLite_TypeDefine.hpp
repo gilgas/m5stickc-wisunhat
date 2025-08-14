@@ -391,13 +391,13 @@ struct Unit final {
 //
 
 //
-using Watt = std::chrono::duration<uint32_t>;
+using Watt = std::chrono::duration<int32_t>;
 // 瞬時電力
 struct InstantWatt final {
   Watt watt; // 瞬時電力(単位 W)
   //
   explicit InstantWatt(std::array<uint8_t, 4> init) {
-    uint32_t W = (init[0] << 24) | (init[1] << 16) | (init[2] << 8) | init[3];
+    int32_t W = (init[0] << 24) | (init[1] << 16) | (init[2] << 8) | init[3];
     watt = Watt{W};
   }
   bool operator==(const InstantWatt &rhs) { return this->watt == rhs.watt; }

@@ -7,3 +7,10 @@
 include/credentials.h
 data/*
 data/settings.json
+# ライブラリ
+lvgl
+lvgl/*
+M5GFX
+M5GFX/*
+M5Unified
+M5Unified/*
