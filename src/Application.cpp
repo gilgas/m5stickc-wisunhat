@@ -42,6 +42,9 @@ void Application::task_handler() {
     if (_telemetry) {
       _telemetry->task_handler();
     }
+    if (_http_telemetry) {
+      _http_telemetry->task_handler();
+    }
     if (M5.Power.getBatteryLevel() < 100 &&
         M5.Power.isCharging() == m5::Power_Class::is_discharging) {
       // バッテリー駆動時は明るさを下げる
@@ -158,6 +161,7 @@ bool Application::startup() {
       std::bind(&Application::synchronize_ntp, this, std::placeholders::_1),
       // AWS IoTは使わないのでコメントアウト
       // std::bind(&Application::start_telemetry, this, std::placeholders::_1),
+      std::bind(&Application::start_http_telemetry, this, std::placeholders::_1),
       std::bind(&Application::start_electricity_meter_communication, this,
                 std::placeholders::_1),
   };
@@ -207,7 +211,7 @@ bool Application::startup() {
 
   //
   StringBufWithDialogue buf{"HELLO"};
-  std::ostream ostream(&buf);
+  std::ostream ostream{&buf};
 
   // 起動
   for (auto it = startup_sequence.begin(); it != startup_sequence.end(); ++it) {
@@ -389,7 +393,7 @@ bool Application::start_wifi(std::ostream &os) {
   //
   {
     std::ostringstream ss;
-    ss << "connect to WiFi AP SSID: \""s << ssid << "\""s;
+    ss << "connect to WiFi AP SSID: \""s << ssid << "\"s";
     os << ss.str() << std::endl;
     M5_LOGI("%s", ss.str().c_str());
   }
@@ -504,6 +508,20 @@ bool Application::start_telemetry(std::ostream &os) {
   }
 
   return false;
+}
+
+//
+bool Application::start_http_telemetry(std::ostream &os) {
+  {
+    std::ostringstream ss;
+    ss << "start http telemetry";
+    os << ss.str() << std::endl;
+    M5_LOGI("%s", ss.str().c_str());
+  }
+  //
+  _http_telemetry.reset(new HttpTelemetry{});
+  //
+  return true;
 }
 
 //

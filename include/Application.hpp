@@ -8,6 +8,7 @@
 #include "Gui.hpp"
 #include "Repository.hpp"
 #include "Telemetry.hpp"
+#include "HttpTelemetry.hpp"
 #include <ArduinoJson.h>
 #include <chrono>
 #include <lvgl.h>
@@ -58,6 +59,10 @@ public:
     return getInstance()->_telemetry;
   }
   //
+  static std::shared_ptr<HttpTelemetry> getHttpTelemetry() {
+    return getInstance()->_http_telemetry;
+  }
+  //
   static std::shared_ptr<ElectricityMeterCommTask> getEnergyMeterCommTask() {
     return getInstance()->_electricity_meter_comm_task;
   }
@@ -101,6 +106,8 @@ private:
   //
   std::shared_ptr<ElectricityMeterCommTask> _electricity_meter_comm_task;
   //
+  std::shared_ptr<HttpTelemetry> _http_telemetry;
+  //
   TaskHandle_t _rtos_lvgl_task_handle{};
   //
   TaskHandle_t _rtos_application_task_handle{};
@@ -112,6 +119,8 @@ private:
   bool synchronize_ntp(std::ostream &os);
   //
   bool start_telemetry(std::ostream &os);
+  //
+  bool start_http_telemetry(std::ostream &os);
   //
   bool start_electricity_meter_communication(std::ostream &os);
   //
