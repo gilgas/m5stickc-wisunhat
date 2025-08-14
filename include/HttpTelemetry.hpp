@@ -5,15 +5,19 @@
 #pragma once
 #include "Repository.hpp"
 #include <optional>
+#include <string>
 
 //
 //
 //
 class HttpTelemetry final {
 public:
-  HttpTelemetry();
+  HttpTelemetry(std::string endpoint);
   void task_handler();
 
 private:
+  const std::string _endpoint;
   std::optional<Repository::InstantWatt> _previous_instant_watt;
+  std::optional<Repository::InstantAmpere> _previous_instant_ampere;
+  std::optional<Repository::CumlativeWattHour> _previous_cumlative_watt_hour;
 };

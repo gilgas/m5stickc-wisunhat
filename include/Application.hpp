@@ -99,6 +99,7 @@ private:
   std::optional<std::string> getSettings_AwsIoT_root_ca_file();
   std::optional<std::string> getSettings_AwsIoT_certificate_file();
   std::optional<std::string> getSettings_AwsIoT_private_key_file();
+  std::optional<std::string> getSettings_HttpTelemetry_Endpoint();
   //
   Gui _gui;
   //

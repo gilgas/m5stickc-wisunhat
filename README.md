@@ -61,3 +61,7 @@ PlatformIO で Upload Filesystem Image すると`data/`ディレクトリの内�
 PlatformIO で Build & Upload する。
 
 AWS IoTページのMQTTテストクライアントで `device/+/data`をサブスクライブすると、これが発行するMQTT通信が(うまくいっていると)見られる。
+
+## 設定ファイルの転送
+
+`pio run -t uploadfs` を実行しないとsettings.jsonが転送されないかも？

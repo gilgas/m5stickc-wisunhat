@@ -152,6 +152,15 @@ std::optional<std::string> Application::getSettings_AwsIoT_private_key_file() {
   return std::nullopt;
 }
 
+//
+std::optional<std::string> Application::getSettings_HttpTelemetry_Endpoint() {
+  if (_settings_json.containsKey("HTTPTelemetry") &&
+      _settings_json["HTTPTelemetry"].containsKey("url")) {
+    return _settings_json["HTTPTelemetry"]["url"];
+  }
+  return std::nullopt;
+}
+
 // 起動
 bool Application::startup() {
   // 起動シーケンス
@@ -294,7 +303,7 @@ bool Application::read_settings_json(std::ostream &os) {
   do {                                                                         \
     if (!check(_x, static_cast<bool>(_y)))                                     \
       goto error_abort;                                                        \
-  } while (0)
+    } while (0)
     //
     CHECK("wifi SSID", getSettings_wifi_SSID());
     CHECK("wifi password", getSettings_wifi_password());
@@ -519,7 +528,8 @@ bool Application::start_http_telemetry(std::ostream &os) {
     M5_LOGI("%s", ss.str().c_str());
   }
   //
-  _http_telemetry.reset(new HttpTelemetry{});
+  auto endpoint = getSettings_HttpTelemetry_Endpoint().value_or("");
+  _http_telemetry.reset(new HttpTelemetry{std::move(endpoint)});
   //
   return true;
 }

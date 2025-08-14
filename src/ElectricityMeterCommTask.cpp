@@ -34,9 +34,9 @@ bool ElectricityMeterCommTask::begin(std::ostream &os,
 void ElectricityMeterCommTask::adjust_timing(
     std::chrono::system_clock::time_point now_tp) {
   auto extra_sec =
-      std::chrono::duration_cast<seconds>(now_tp.time_since_epoch()) % 60s;
+      std::chrono::duration_cast<seconds>(now_tp.time_since_epoch()) % 30s;
   //
-  _next_send_request_in_tp = now_tp + 1min - extra_sec;
+  _next_send_request_in_tp = now_tp + 30s - extra_sec;
 }
 
 // 測定関数
